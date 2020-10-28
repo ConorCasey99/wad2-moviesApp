@@ -4,7 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../globals/fontawesome";
 import { Link } from "react-router-dom";
 
-const MovieCard = props => {
+const MovieCard = (props) => {
+
+  const handleAddToFavorites = e => {
+    e.preventDefault()
+    props.buttonHandler(props.movie.id)  // new line
+  }
   return (
     <div className="col-sm-3">
       <div className="card  bg-white">
@@ -15,9 +20,16 @@ const MovieCard = props => {
       src={
         props.movie.poster_path
           ? `https://image.tmdb.org/t/p/w500/${props.movie.poster_path}`
-          : "./film-poster-placeholder.png"
+          : "./film-poster-placeholder.png"  
       }
     />
+      <div className="card-footer">
+          <button type="button" className="btn w-100 btn-primary"
+                onClick={handleAddToFavorites}
+                >
+            Add to Favorites
+          </button>
+        </div>
   </Link>
         <div className="card-body">
           <h4 className="card-title ">{props.movie.title}</h4>
