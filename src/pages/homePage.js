@@ -4,7 +4,9 @@ import MovieList from "../components/movieList";
 import FilterControls from "../components/filterControls";
 
 const MovieListPage = () => {
-  const [movies, setMovies] = useState([]);
+  const [titleFilter, setTitleFilter] = useState("");       // NEW
+  const [genreFilter, setGenreFilter] = useState("0");      // NEW
+  const [movies, setMovies] = useState([])
   useEffect(() => {
     fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=1`
@@ -18,13 +20,28 @@ const MovieListPage = () => {
         setMovies(movies);
       });
   }, []);
-  return (
-    <>
-      <Header numMovies={movies.length} />
-      <FilterControls />
-      <MovieList movies={movies} />
-    </>
-  );
+// NEW BLOCK START
+const genre = Number(genreFilter)
+let displayedMovies = movies
+  .filter(m => {
+    return m.title.toLowerCase().search(titleFilter.toLowerCase()) !== -1;
+  })
+  .filter(m => {
+    return genre > 0 ? m.genre_ids.includes(Number(genreFilter)) : true;
+  });
+
+const handleFilterChange = (type, value) => {
+  if (type === "name") setTitleFilter(value);
+  else setGenreFilter(value);
+};
+// NEW BLOCK END
+return (
+  <>
+    <Header numMovies={displayedMovies.length} />          {/* CHANGED */}
+    <FilterControls onUserInput={handleFilterChange} />    {/* CHANGED */}
+    <MovieList movies={displayedMovies} />                  {/* CHANGED */}
+  </>
+);
 };
 
 export default MovieListPage;
