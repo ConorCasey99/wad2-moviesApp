@@ -15,7 +15,7 @@ const MovieCard = (props) => {
       <div className="card  bg-white">
       <Link to={`/movies/${props.movie.id}`}>
     <img
-      className="card-img-tag center "
+      className="card-img-tag center"
       alt={props.movie.title}
       src={
         props.movie.poster_path
