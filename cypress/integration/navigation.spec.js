@@ -86,7 +86,14 @@ describe("Navigation", () => {
           cy.get("h2").contains("No. Movies");
         });
         it("should navigate from favorites page to movie details and back", () => {
-          // TODO
+            cy.get(".card").eq(0).find("button").click();
+            cy.get("nav").find("li").eq(2).find("a").click();
+            cy.get("nav").find("li").eq(2).find("a").click();
+            cy.url().should("include", `/favorites`);
+            cy.get("h2").contains("Favorite Movies");
+            cy.get(".card").eq(0).find("img").click();
+            cy.get("svg[data-icon=arrow-circle-left]").click();
+            cy.get("h2").contains("Favorite Movies");
         });
       });
   });
