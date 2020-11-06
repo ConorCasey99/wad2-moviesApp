@@ -31,7 +31,7 @@ describe("Home Page ", () => {
       });
       describe("Filtering", () => {
         it("should only display movies with the specified title substring", () => {
-          let searchString = "m";
+          let searchString = "o";
           let matchingMovies = filterByTitle(movies, searchString);
           cy.get("input").clear().type(searchString); // Enter m in text box
           cy.get(".card").should("have.length", matchingMovies.length);
@@ -40,7 +40,12 @@ describe("Home Page ", () => {
           matchingMovies = filterByTitle(movies, searchString);
           cy.get("input").clear().type(searchString)
           cy.get(".card").should("have.length", matchingMovies.length);
-        });
+          //test for exceptional case
+          searchString = "xyz";
+          matchingMovies = filterByTitle(movies, searchString);
+          cy.get("input").clear().type(searchString); // Enter xyz in text box
+          cy.get(".card").should("have.length", matchingMovies.length);  
+          });
         describe("By movie genre", () => {
           it("should display movies with the specified genre only", () => {
             const selectedGenreId = 35;
@@ -53,8 +58,23 @@ describe("Home Page ", () => {
                 .find(".card-title")
                 .should("have.text", matchingMovies[index].title);
             });      
-          });
+          });  describe("By movie genre and text filter", () => {
+            it("should display movies with the specified genre and string", () => {
+              const selectedGenreId = 35;
+              const selectedGenreText = "Comedy";
+              let searchString = "o";
+              const matchingMovies = filterByGenre(movies, selectedGenreId) && filterByTitle(movies, searchString);
+              cy.get("select").select(selectedGenreText && searchString);
+              cy.get("input").clear().type(searchString);  
+              cy.get(".card").should("have.length", matchingMovies.length);
+              cy.get(".card").each(($card, index) => {
+                cy.wrap($card)
+                  .find(".card-title")
+                  .should("have.text", matchingMovies[index].title);
+              });      
+            });
       });
     });
   });
+});
 });
