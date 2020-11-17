@@ -152,3 +152,23 @@ storiesOf("Movie Details Page/MovieHeader", module)
     <MemoryRouter initialEntries={["/"]}>{story()}</MemoryRouter>
   ))
   .add("default", () => <MovieHeader movie={sample} />);
+
+// storiesOf("Upcoming Movies Details Page/UpcomingMovies", module).add("default", () => (
+//   <UpcomingMovies movie={sample} />
+// ));
+
+storiesOf("Upcoming Movies Details Page/Upcoming Movies", module)
+  .addDecorator(story => (
+      <MemoryRouter initialEntries={["/"]}>{story()}</MemoryRouter>
+  ))
+  .add("default", () => {
+    const movies = [sample, sample, sample, sample, sample];
+    return(
+      <UpcomingMovies
+        movies={movies}
+        action={movie => (
+          <button className="btn w-100 btn-primary">Test</button>
+        )}
+      />
+    );
+  });
