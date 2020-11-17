@@ -6,7 +6,7 @@ stages:
   - install
   - build
   - test
-  
+
 # Jobs 
 
 install_dependencies:
