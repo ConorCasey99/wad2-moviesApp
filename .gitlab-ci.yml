@@ -20,4 +20,4 @@ install_dependencies:
 bundle_app:
   stage: build
   script:
-    - npm run build
+    - CI=false npm run build
